@@ -1,0 +1,24 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  /* Simple radio button styles */
+  input[type='radio'] {
+    @apply w-4 h-4;
+    @apply text-blue-600;
+    @apply border-gray-300;
+    @apply focus:ring-blue-600;
+    @apply cursor-pointer;
+  }
+
+  /* Simple checkbox styles */
+  input[type='checkbox'] {
+    @apply w-4 h-4;
+    @apply text-blue-600;
+    @apply border-gray-300;
+    @apply rounded;
+    @apply focus:ring-blue-600;
+    @apply cursor-pointer;
+  }
+}
