@@ -1,4 +1,4 @@
-import { Provider } from '@/types/exam'
+import { Provider } from '@/types/provider'
 
 const zhProviders: Provider[] = [
   {

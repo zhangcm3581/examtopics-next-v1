@@ -74,7 +74,7 @@ export default function ExamPage({ params }: { params: { code: string } }) {
           vendor={exam.provider}
           examCode={exam.code}
           examName={exam.title}
-          totalQuestions={exam.total_questions}
+          totalQuestions={exam.totalQuestions}
         />
 
         <div className="space-y-6 sm:space-y-8">

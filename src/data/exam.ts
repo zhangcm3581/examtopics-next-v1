@@ -9,8 +9,7 @@ export const examData: Record<string, Exam> = {
     description: 'Validate your ability to design and implement distributed systems on AWS',
     totalQuestions: 6,
     passingScore: 72,
-    updated_at: '2024-01-15',
-    total_questions: 6
+    updated_at: '2024-01-15'
   },
   'aws-dva-c02': {
     id: 'aws-dva-c02',
@@ -20,7 +19,6 @@ export const examData: Record<string, Exam> = {
     description: 'Validate your ability to develop and maintain AWS-based applications',
     totalQuestions: 6,
     passingScore: 72,
-    updated_at: '2024-01-15',
-    total_questions: 6
+    updated_at: '2024-01-15'
   }
 };

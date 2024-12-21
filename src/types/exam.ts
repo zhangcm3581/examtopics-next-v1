@@ -6,6 +6,7 @@ export interface Exam {
   description: string;
   totalQuestions: number;
   passingScore: number;
+  updated_at: string;
 }
 
 export interface Question {
