@@ -15,9 +15,7 @@ export default function Home() {
         <p className="text-sm sm:text-base text-gray-600 mb-6 sm:mb-8">提供中英文版本</p>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-8">
-          {currentProviders.map((provider) => (
-            <ExamSection key={provider.id} provider={provider} />
-          ))}
+          <ExamSection />
         </div>
       </div>
     </main>

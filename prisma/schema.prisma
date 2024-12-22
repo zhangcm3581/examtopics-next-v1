@@ -1,0 +1,39 @@
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+  relationMode = "prisma"    // MySQL 8 需要这个设置
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum Provider {
+  AWS
+  Google
+}
+
+model Exam {
+  id             String     @id
+  title          String
+  code           String
+  provider       String     // Enum: 'AWS' | 'Google' | 'Cisco'
+  description    String
+  totalQuestions Int
+  language       String     @default("zh") // Enum: 'zh' | 'en'
+  updatedAt      DateTime   @updatedAt @map("updated_at")
+  questions      Question[]
+}
+
+model Question {
+  id             String   @id
+  examId         String
+  questionNumber Int
+  content        String   @db.Text
+  options        Json     
+  correctAnswer  String
+  explanation    String   @db.Text
+  exam           Exam     @relation(fields: [examId], references: [id])
+
+  @@index([examId])
+}

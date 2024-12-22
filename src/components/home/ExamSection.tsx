@@ -1,32 +1,50 @@
-'use client';
-
-import Link from 'next/link';
+import { useState, useEffect } from 'react';
 import { ExamLinkList } from './ExamList';
-import { useTranslations } from '@/hooks/useTranslations';
-import type { Provider } from '@/lib/types/exam';
+import { useLanguageStore } from '@/lib/stores/languageStore';
+import type { ExamLink } from '@/lib/types/exam';
 
-interface ExamSectionProps {
-  provider: Provider;
-}
+type ExamsByProvider = Record<string, ExamLink[]>;
 
-export function ExamSection({ provider }: ExamSectionProps) {
-  const t = useTranslations();
+export function ExamSection() {
+  const [examsByProvider, setExamsByProvider] = useState<ExamsByProvider>({});
+  const [loading, setLoading] = useState(true);
+  const { language } = useLanguageStore();
+
+  useEffect(() => {
+    const fetchExams = async () => {
+      try {
+        const res = await fetch(`/api/exams?language=${language}`);
+        if (!res.ok) throw new Error('Failed to fetch exams');
+        const data = await res.json();
+        setExamsByProvider(data);
+      } catch (error) {
+        console.error('Error fetching exams:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchExams();
+  }, [language]);
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center p-8">
+        <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-blue-500" />
+      </div>
+    );
+  }
 
   return (
-    <div className="bg-white rounded-lg shadow-md p-3 sm:p-6">
-      <div className="flex justify-between items-center mb-4 sm:mb-6">
-        <h2 className="text-lg sm:text-xl font-semibold">
-          {provider.title}
-        </h2>
-        {/* <Link 
-          href={provider.allExamsLink}
-          className="text-xs sm:text-sm text-blue-500 hover:text-blue-600"
-        >
-          {t.home.viewAll}
-        </Link> */}
-      </div>
-      
-      <ExamLinkList examLinks={provider.examLinks} />
-    </div>
+    <>
+      {Object.entries(examsByProvider).map(([provider, exams]) => (
+        <div key={provider} className="bg-white rounded-lg shadow-md p-3 sm:p-6">
+          <div className="flex justify-between items-center mb-4 sm:mb-6">
+            <h2 className="text-lg sm:text-xl font-semibold">{provider}</h2>
+          </div>
+          <ExamLinkList examLinks={exams} />
+        </div>
+      ))}
+    </>
   );
 }
