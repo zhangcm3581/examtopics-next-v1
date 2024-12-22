@@ -18,12 +18,12 @@ export function ExamSection({ provider }: ExamSectionProps) {
         <h2 className="text-lg sm:text-xl font-semibold">
           {provider.title}
         </h2>
-        <Link 
+        {/* <Link 
           href={provider.allExamsLink}
           className="text-xs sm:text-sm text-blue-500 hover:text-blue-600"
         >
           {t.home.viewAll}
-        </Link>
+        </Link> */}
       </div>
       
       <ExamLinkList examLinks={provider.examLinks} />
