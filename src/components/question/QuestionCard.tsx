@@ -54,8 +54,8 @@ export function QuestionCard({ question, number, onAnswer }: QuestionCardProps) 
         </div>
 
         <ExplanationView
-          answer={question.explanation.answer}
-          detail={question.explanation.detail}
+          answer={question.correctAnswer}
+          detail={question.explanation}
           show={showExplanation}
         />
       </div>

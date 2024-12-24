@@ -1,9 +1,8 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { getExamDetails, getExamQuestions } from '@/lib/services/exam';
 import { QuestionList } from '@/components/QuestionList';
-import { ExamDetailHeader } from '@/components/exam/ExamHeader';
+import { QuestionInfo } from '@/components/question/QuestionInfo';
 import { useLanguageStore } from '@/lib/stores/languageStore';
 import type { Exam } from '@/types/exam';
 import type { ExamQuestion } from '@/lib/types/question';
@@ -20,27 +19,45 @@ export default function ExamPage({ params }: { params: { code: string } }) {
       try {
         setLoading(true);
         setError(null);
-
-        // Remove the -zh or -en suffix from the code
+  
         const examId = params.code.replace(/-[a-z]{2}$/, '');
+        console.log('Fetching data for examId:', examId); // 添加日志
         
-        const examData = await getExamDetails(examId, language);
-        if (!examData) {
-          setError('Exam not found');
+        const res = await fetch(`/api/questions?code=${examId}&language=${language}`);
+        console.log('API Response:', {
+          status: res.status,
+          statusText: res.statusText,
+          headers: Object.fromEntries(res.headers.entries())
+        });
+        
+        if (!res.ok) {
+          const errorData = await res.json();
+          console.error('API Error:', errorData); // 添加错误日志
+          setError(errorData.error || 'Failed to load exam data');
           return;
         }
-        setExam(examData);
-
-        const questionsData = await getExamQuestions(examId, language);
-        setQuestions(questionsData);
+  
+        const examData = await res.json();
+        console.log('Exam data:', examData); // 添加数据日志
+        
+        setExam({
+          id: examData.id,
+          title: examData.title,
+          code: examData.code,
+          provider: examData.provider,
+          description: examData.description || '',
+          totalQuestions: examData.questions.length,
+          updated_at: examData.updated_at
+        });
+        
+        setQuestions(examData.questions);
       } catch (err) {
-        console.error('Failed to load exam data:', err);
+        console.error('Error details:', err); // 增强错误日志
         setError('Failed to load exam data');
       } finally {
         setLoading(false);
       }
     }
-
     loadExamData();
   }, [params.code, language]);
 
@@ -68,7 +85,7 @@ export default function ExamPage({ params }: { params: { code: string } }) {
   return (
     <div className="min-h-screen bg-gray-50 py-6 sm:py-12">
       <div className="max-w-[1100px] mx-auto px-3 sm:px-6">
-        <ExamDetailHeader
+        <QuestionInfo
           title={exam.title}
           lastUpdated={exam.updated_at}
           vendor={exam.provider}

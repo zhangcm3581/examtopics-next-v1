@@ -28,6 +28,8 @@ model Exam {
 model Question {
   id             String   @id
   examId         String
+  type           String   // Enum: 'single' | 'multiple'
+  language       String   // @default("zh") // Enum: 'zh' | 'en'
   questionNumber Int
   content        String   @db.Text
   options        Json     

@@ -7,9 +7,6 @@ export interface ExamQuestion {
     content: string;
   }[];
   correctAnswer: string;
-  explanation: {
-    answer: string;
-    detail: string;
-  };
+  explanation: string;
   language: 'en' | 'zh';
 }

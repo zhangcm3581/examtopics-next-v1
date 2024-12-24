@@ -5,25 +5,17 @@ export interface Exam {
   provider: 'AWS' | 'Google' | 'Cisco';
   description: string;
   totalQuestions: number;
-  passingScore: number;
   updated_at: string;
 }
 
 export interface Question {
   id: string;
   examId: string;
+  language: 'en' | 'zh';
+  type: 'single' | 'multiple';
   questionNumber: number;
   content: string;
   options: string[];
   correctAnswer: string;
   explanation: string;
-  references?: string[];
-}
-
-export interface UserProgress {
-  userId: string;
-  examId: string;
-  questionsAttempted: number;
-  correctAnswers: number;
-  lastAttempted: Date;
 }
