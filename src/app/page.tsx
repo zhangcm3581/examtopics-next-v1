@@ -2,11 +2,9 @@
 
 import { ExamSection } from '@/components/home/ExamSection';
 import { useLanguageStore } from '@/lib/stores/languageStore';
-import { getProvidersByLanguage } from '@/data/providers';
 
 export default function Home() {
   const { language } = useLanguageStore();
-  const currentProviders = getProvidersByLanguage(language);
 
   return (
     <main className="min-h-screen bg-gray-50">

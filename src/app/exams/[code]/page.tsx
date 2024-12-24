@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { QuestionList } from '@/components/QuestionList';
 import { QuestionInfo } from '@/components/question/QuestionInfo';
 import { useLanguageStore } from '@/lib/stores/languageStore';
-import type { Exam } from '@/types/exam';
+import type { Exam } from '@/lib/types/exam';
 import type { ExamQuestion } from '@/lib/types/question';
 
 export default function ExamPage({ params }: { params: { code: string } }) {
@@ -20,17 +20,17 @@ export default function ExamPage({ params }: { params: { code: string } }) {
         setLoading(true);
         setError(null);
   
-        const examId = params.code.replace(/-[a-z]{2}$/, '');
+        const examId = params.code;
         console.log('Fetching data for examId:', examId); // 添加日志
         
-        const res = await fetch(`/api/questions?code=${examId}&language=${language}`);
+        const res = await fetch(`/api/questions?id=${examId}&language=${language}`);
         console.log('API Response:', {
           status: res.status,
           statusText: res.statusText,
           headers: Object.fromEntries(res.headers.entries())
         });
         
-        if (!res.ok) {
+        if (res.status !== 200) {
           const errorData = await res.json();
           console.error('API Error:', errorData); // 添加错误日志
           setError(errorData.error || 'Failed to load exam data');
@@ -41,13 +41,13 @@ export default function ExamPage({ params }: { params: { code: string } }) {
         console.log('Exam data:', examData); // 添加数据日志
         
         setExam({
-          id: examData.id,
-          title: examData.title,
-          code: examData.code,
-          provider: examData.provider,
-          description: examData.description || '',
-          totalQuestions: examData.questions.length,
-          updated_at: examData.updated_at
+          id: examData.exam?.id,
+          title: examData.exam?.title,
+          code: examData.exam?.code,
+          provider: examData.exam?.provider,
+          description: examData.exam?.description || '',
+          totalQuestions: examData.questions?.length,
+          updated_at: examData.exam?.updatedAt
         });
         
         setQuestions(examData.questions);
@@ -95,7 +95,7 @@ export default function ExamPage({ params }: { params: { code: string } }) {
         />
 
         <div className="space-y-6 sm:space-y-8">
-          <QuestionList questions={questions} examId={exam.id} />
+          <QuestionList language={language} examId={exam.id} />
         </div>
       </div>
     </div>

@@ -18,8 +18,6 @@ export interface Exam {
   provider: 'AWS' | 'Google' | 'Cisco';
   description: string;
   totalQuestions: number;
-  passingScore: number;
   language?: 'en' | 'zh';
   updated_at?: string;
-  total_questions?: number;
 }

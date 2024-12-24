@@ -22,7 +22,7 @@ export async function GET(request: Request) {
         acc[exam.provider] = [];
       }
       acc[exam.provider].push({
-        id: exam.code,
+        id: exam.id,
         title: exam.title
       });
       return acc;
