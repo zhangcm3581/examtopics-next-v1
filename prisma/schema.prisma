@@ -17,6 +17,7 @@ model Exam {
   id             String     @id
   title          String
   code           String
+  slug           String
   provider       String     // Enum: 'AWS' | 'Google' | 'Cisco'
   description    String
   totalQuestions Int

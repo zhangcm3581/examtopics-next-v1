@@ -1,6 +1,8 @@
 export interface ExamLink {
   id: string;
   title: string;
+  slug: string;
+  provider: string;
 }
 
 export interface Provider {

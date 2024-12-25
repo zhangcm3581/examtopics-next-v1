@@ -11,7 +11,7 @@ export function ExamLinkList({ examLinks }: ExamLinkListProps) {
       {examLinks.map((exam) => (
         <Link
           key={exam.id}
-          href={`/exams/${exam.id}`}
+          href={`/exams/${exam.provider}/${exam.slug}`}
           className="block text-sm sm:text-base text-blue-600 hover:text-blue-800"
         >
           {exam.title}

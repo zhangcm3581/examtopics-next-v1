@@ -12,7 +12,8 @@ export async function GET(request: Request) {
         id: true,
         title: true,
         code: true,
-        provider: true
+        provider: true,
+        slug: true
       }
     });
 
@@ -23,15 +24,17 @@ export async function GET(request: Request) {
       }
       acc[exam.provider].push({
         id: exam.id,
-        title: exam.title
+        title: exam.title,
+        slug: exam.slug,
+        provider: exam.provider
       });
       return acc;
     }, {} as Record<string, any[]>);
 
-    // 将 AWS 提取出来，重新构建有序对象
-    const { AWS, ...others } = examsByProvider;
+    // 将 amazon 提取出来，重新构建有序对象
+    const { amazon, ...others } = examsByProvider;
     const orderedData = {
-      AWS: AWS || [],
+      amazon: amazon || [],
       ...others
     };
 

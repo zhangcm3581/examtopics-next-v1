@@ -1,5 +1,4 @@
 import { formatDate } from '@/lib/utils/date';
-import { useTranslations } from '@/hooks/useTranslations';
 
 interface QuestionInfoProps {
   title?: string;
@@ -18,7 +17,6 @@ export function QuestionInfo({
   examName = '',
   totalQuestions = 0,
 }: QuestionInfoProps) {
-  const t = useTranslations();
 
   return (
     <div className="bg-white rounded-lg shadow-sm mb-4 sm:mb-8">
